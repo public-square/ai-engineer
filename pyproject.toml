@@ -5,6 +5,7 @@ description = "Agentic AI example with managed github repository clones, RAG, AP
 authors = ["Christian Gribneau <c@vyk.net>"]
 license = "MIT"
 readme = "README.md"
+package-mode = false
 
 [tool.poetry.dependencies]
 python = "<3.13,^3.12"
