@@ -133,7 +133,7 @@ def chat_prompt(args):
     """
     Chat with LLM
     """
-    from common.chat.prompt import process_chat_prompt
+    from common.llm.prompt import process_chat_prompt
     prompt = args.prompt
     if not prompt:
         print('Please supply a prompt')
@@ -175,12 +175,12 @@ if __name__ == '__main__':
     # command sub-parsers
     sub_parsers = parser.add_subparsers(help='sub-command help')
 
-    # chat/prompt
-    parser_chat_prompt = sub_parsers.add_parser('chat', help='chat with LLM')
-    parser_chat_prompt.add_argument('--prompt', type=str, help='text to prompt LLM')
-    parser_chat_prompt.add_argument('--repo',  type=str, help='repository owner/repo/branch')
-    parser_chat_prompt.add_argument('--context',  type=str, help='filenames, array')
-    parser_chat_prompt.set_defaults(func=chat_prompt)
+    # llm/prompt
+    parser_llm_prompt = sub_parsers.add_parser('llm', help='chat with LLM')
+    parser_llm_prompt.add_argument('--prompt', type=str, help='text to prompt LLM')
+    parser_llm_prompt.add_argument('--repo',  type=str, help='repository owner/repo/branch')
+    parser_llm_prompt.add_argument('--context',  type=str, help='filenames, array')
+    parser_llm_prompt.set_defaults(func=chat_prompt)
 
     # ragindex command and subcommands
     parser_ragindex = sub_parsers.add_parser('ragindex', help='rag index commands')

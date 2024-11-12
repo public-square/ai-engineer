@@ -43,5 +43,5 @@ urlpatterns = [
     path('ragindex/vectorize/', views.ragindex.vectorize.vectorize_repository_view, name='vectorize_repository'),
     path('ragindex/list/', views.ragindex.list.list_repositories_view, name='list_repositories'),
     path('ragindex/delete/', views.ragindex.delete.delete_repository_view, name='delete_repository'),
-    path('chat/prompt/', views.chat.prompt.chat_with_gpt_view, name='chat_with_gpt'),
+    path('llm/prompt/', views.llm.prompt.chat_with_gpt_view, name='chat_with_gpt'),
 ]

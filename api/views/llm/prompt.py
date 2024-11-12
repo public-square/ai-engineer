@@ -1,7 +1,7 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
-from common.chat.prompt import process_chat_prompt
+from common.llm.prompt import process_chat_prompt
 
 @api_view(['POST'])
 def chat_with_gpt_view(request):

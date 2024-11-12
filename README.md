@@ -28,7 +28,7 @@ echo exit | python3.12 -m poetry shell
 ```
 
 ## Configuration
-Copy `global/./env-sample` to `global/.env`.
+Copy `global/env-sample` to `global/.env`.
 
 Obtain keys and set `OPENAI_API_KEY`, `PINECONE_API_KEY`, and `LANGCHAIN_API_KEY`.
 
@@ -54,7 +54,7 @@ Pause while Pinecone makes the index available. Verify that it is ready:
 ## Verify RAG
 LLM prompts with an indexed repository specified use that repository for RAG.
 ```bash
-./ai-engineer chat \
+./ai-engineer llm \
 --repo 'public-square/ai-engineer/main' \
 --prompt "What is the curl command I should use to hit the ping API target?"
 ```

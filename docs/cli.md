@@ -42,7 +42,7 @@ the new repository is available for listing.
 Prompts may be sent to the LLM without context, if desired.
 
 ```bash
-./ai-engineer chat \
+./ai-engineer llm \
 --prompt 'Make me laugh in 50 words or less.'
 ```
 
@@ -50,7 +50,7 @@ To provide retrieval augmented generation based on a specific repository,
 specify that repository with a `--repo` argument.
 
 ```bash
-./ai-engineer chat \
+./ai-engineer llm \
 --repo 'public-square/ai-engineer/main' \
 --prompt "What is the curl command I should use to hit the ping API target?"
 ```
@@ -111,7 +111,7 @@ repositories for RAG.
 To ensure that the code executes, use `ping` to send a string and observe that
 it is returned reverses.
 ```bash
-./ai-engineer-cli.py ping --text '123 456'
+./ai-engineer setup ping --text '123 456'
 ```
 
 ```
