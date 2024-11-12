@@ -13,7 +13,7 @@ Repositories are added to the index as discrete namespaces, specified as
 succeeds.
 
 ```bash
-./ai-engineer repo vectorize \
+./ai-engineer ragindex vectorize \
 --repo 'public-square/ai-engineer/main'
 ```
 
@@ -25,7 +25,7 @@ Note that after an index operation completes, there may be a brief delay before
 the new repository is available for listing.
 
 ```bash
-./ai-engineer repo list
+./ai-engineer ragindex list
 ```
 
 ```
@@ -34,7 +34,7 @@ the new repository is available for listing.
 
 ### Delete a Repository from the Index
 ```bash
-./ai-engineer repo delete \
+./ai-engineer ragindex delete \
 --repo 'public-square/ai-engineer/main'
 ```
 
