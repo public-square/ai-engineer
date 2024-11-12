@@ -1,0 +1,243 @@
+#!./.venv/bin/python
+
+"""
+ai-engineer command line interface
+"""
+
+import os
+from common.utils import *
+from pathlib import Path
+import argparse
+
+# Set up Django
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'global.settings')
+import django
+django.setup()
+
+
+def ping(args):
+    """
+    Proof of life. Reverses a provided text string.
+    """
+    if not args.text:
+        print('Please provide a text field in the request body')
+        return
+
+    input_text = args.text
+
+    if not isinstance(input_text, str):
+        print('Text field must be a string')
+        return
+
+    if len(input_text) > 1024:
+        print('Text must not exceed 1024 characters')
+        return
+
+    reversed_text = input_text[::-1]
+
+    print({
+        'ping': input_text,
+        'pong': reversed_text
+    })
+
+def repo_list(args):
+    """
+    List repositories for RAG
+    """
+    from common.repo.list import list_repositories
+
+    repos = list_repositories()
+    print(repos)
+
+def repo_vectorize(args):
+    """
+    Vectorize repository
+    """
+    from common.repo.vectorize import vectorize_repository
+
+    repo = args.repo
+    if not repo:
+        print('Please provide a repository owner/repo/branch')
+        return
+
+    vectorize_repository(repo)
+
+def repo_delete(args):
+    """
+    Delete repository
+    """
+    from common.repo.delete import delete_repository
+
+    repo = args.repo
+    if not repo:
+        print('Please provide a repository owner/repo/branch')
+        return
+
+    delete_repository(repo)
+
+def setup_newindex(args):
+    """
+    Setup new index for RAG
+    """
+    from common.setup.newindex import new_index
+    print(new_index())
+
+
+
+
+
+def clone_list(args):
+    """
+    List local repository clones
+    """
+    from common.clone.list import list_clones
+
+    clones = list_clones()
+    print(clones)
+
+def clone_create(args):
+    """
+    Create local repository clone
+    """
+    from common.clone.create import create_clone
+
+    repo = args.repo
+    if not repo:
+        print('Please provide a repository owner/repo/branch')
+        return
+
+    print (create_clone(repo))
+
+def clone_delete(args):
+    """
+    Delete local repository clone
+    """
+    from common.clone.delete import delete_clone
+
+    repo = args.repo
+    if not repo:
+        print('Please provide a repository owner/repo/branch')
+        return
+
+    print (delete_clone(repo))
+
+
+
+
+
+
+
+
+
+def chat_prompt(args):
+    """
+    Chat with LLM
+    """
+    from common.chat.prompt import process_chat_prompt
+    prompt = args.prompt
+    if not prompt:
+        print('Please supply a prompt')
+        return
+    repo = args.repo
+    context = args.context
+    print (process_chat_prompt(prompt, repo, context))
+    print('repo: ', repo)
+
+def env(args):
+    """
+    Display environment variables from settings
+    """
+    env_vars = {
+        'API_SERVER_PORT': django.conf.settings.API_SERVER_PORT,
+        'GITHUB_CLONE_DIR': django.conf.settings.GITHUB_CLONE_DIR,
+        'GITHUB_TOKEN': django.conf.settings.GITHUB_TOKEN,
+        'OPENAI_API_KEY': django.conf.settings.OPENAI_API_KEY,
+        'PINECONE_ENVIRONMENT': django.conf.settings.PINECONE_ENVIRONMENT,
+        'PINECONE_API_KEY': django.conf.settings.PINECONE_API_KEY,
+        'PINECONE_INDEX': django.conf.settings.PINECONE_INDEX,
+        'EMBEDDING_DIMENSIONS': django.conf.settings.EMBEDDING_DIMENSIONS,
+        'LANGCHAIN_TRACING_V2': django.conf.settings.LANGCHAIN_TRACING_V2,
+        'LANGCHAIN_ENDPOINT': django.conf.settings.LANGCHAIN_ENDPOINT,
+        'LANGCHAIN_API_KEY': django.conf.settings.LANGCHAIN_API_KEY,
+        'LANGCHAIN_PROJECT': django.conf.settings.LANGCHAIN_PROJECT,
+        'TAVILY_API_KEY': django.conf.settings.TAVILY_API_KEY
+    }
+
+    for key, value in env_vars.items():
+        print(f'{key}: {value}')
+
+
+if __name__ == '__main__':
+    # root parser
+    parser = argparse.ArgumentParser(prog='PROG')
+    parser.add_argument('--json', action='store_true', help='produce JSON output')
+
+    # command sub-parsers
+    sub_parsers = parser.add_subparsers(help='sub-command help')
+
+    # ping
+    parser_ping = sub_parsers.add_parser('ping', help='proof of life - returns text reversed')
+    parser_ping.add_argument('--text', type=str, help='text to reverse')
+    parser_ping.set_defaults(func=ping)
+
+    # chat/prompt
+    parser_chat_prompt = sub_parsers.add_parser('chat', help='chat with LLM')
+    parser_chat_prompt.add_argument('--prompt', type=str, help='text to prompt LLM')
+    parser_chat_prompt.add_argument('--repo',  type=str, help='repository owner/repo/branch')
+    parser_chat_prompt.add_argument('--context',  type=str, help='filenames, array')
+    parser_chat_prompt.set_defaults(func=chat_prompt)
+
+    # repo/list
+    parser_repo_list = sub_parsers.add_parser('repo-list', help='list repositories for RAG')
+    parser_repo_list.set_defaults(func=repo_list)
+
+    # repo/vectorize
+    parser_repo_vectorize = sub_parsers.add_parser('repo-vectorize', help='vectorize repository')
+    parser_repo_vectorize.add_argument('--repo', type=str, help='repository owner/repo/branch')
+    parser_repo_vectorize.set_defaults(func=repo_vectorize)
+
+    # repo/delete
+    parser_repo_delete = sub_parsers.add_parser('repo-delete', help='delete repository')
+    parser_repo_delete.add_argument('--repo', type=str, help='repository owner/repo/branch')
+    parser_repo_delete.set_defaults(func=repo_delete)
+
+
+
+
+
+
+
+
+    # clone/list
+    parser_clone_list = sub_parsers.add_parser('clone-list', help='list local repository clones')
+    parser_clone_list.set_defaults(func=clone_list)
+
+    # clone/create
+    parser_clone_create = sub_parsers.add_parser('clone-create', help='create local repository clone')
+    parser_clone_create.add_argument('--repo', type=str, help='repository owner/repo/branch')
+    parser_clone_create.set_defaults(func=clone_create)
+
+    # clone/delete
+    parser_clone_delete = sub_parsers.add_parser('clone-delete', help='delete local repository clone')
+    parser_clone_delete.add_argument('--repo', type=str, help='repository owner/repo/branch')
+    parser_clone_delete.set_defaults(func=clone_delete)
+
+
+
+
+
+
+
+
+    # env
+    parser_env = sub_parsers.add_parser('env', help='display environment variables from settings')
+    parser_env.set_defaults(func=env)
+
+    # setup/newindex
+    parser_setup_newindex = sub_parsers.add_parser('setup-newindex', help='create new index for RAG')
+    parser_setup_newindex.set_defaults(func=setup_newindex)
+
+
+    args = parser.parse_args()
+    args.func(args)
+
