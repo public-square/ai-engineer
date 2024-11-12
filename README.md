@@ -35,20 +35,20 @@ Obtain keys and set `OPENAI_API_KEY`, `PINECONE_API_KEY`, and `LANGCHAIN_API_KEY
 Create a Pincone index for RAG.
 
 ```bash
-./ai-engineer setup newindex
+./ai-engineer setupindex
 ```
 
 ## Vectorize a Repository for RAG
 Repositories for RAG are stored in individual namespaces. Add this one.
 
 ```bash
-./ai-engineer repo vectorize --repo public-square/ai-engineer/main
+./ai-engineer ragindex vectorize --repo public-square/ai-engineer/main
 ```
 
 Pause while Pinecone makes the index available. Verify that it is ready:
 
 ```bash
-./ai-engineer repo list
+./ai-engineer ragindex list
 ```
 
 ## Verify RAG
@@ -77,4 +77,11 @@ http://localhost:8001/api/chat/prompt/ -d @- << EOF |
 EOF
 jq
 ```
+
+Stop if not needed.
+
+```bash
+./ai-engineer-ctrl stop
+```
+
 

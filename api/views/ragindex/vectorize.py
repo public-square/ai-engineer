@@ -1,7 +1,7 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
-from common.repo.vectorize import vectorize_repository
+from common.ragindex.vectorize import vectorize_repository
 
 @api_view(['POST'])
 def vectorize_repository_view(request):

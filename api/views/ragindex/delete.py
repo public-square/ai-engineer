@@ -1,7 +1,7 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
-from common.repo.delete import delete_repository
+from common.ragindex.delete import delete_repository
 
 
 @api_view(['DELETE'])

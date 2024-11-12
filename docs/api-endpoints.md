@@ -29,7 +29,7 @@ namespace. That namespace is referenced when making RAG-enabled LLM requests.
 
 ```bash
 curl -X POST -H "Content-Type: application/json" \
-http://localhost:8001/api/repo/vectorize/ \
+http://localhost:8001/api/ragindex/vectorize/ \
 -d '{"repository": "/public-square/ai-engineer/main"}' | jq
 ```
 
@@ -38,7 +38,7 @@ The current list of repositories indexed for RAG is available for verification.
 
 ```bash
 curl --silent -X GET -H "Content-Type: application/json" \
-http://localhost:8001/api/repo/list/ | jq
+http://localhost:8001/api/ragindex/list/ | jq
 ```
 
 ### Delete a Repository RAG Namespace
@@ -46,7 +46,7 @@ Remove a repository entirely from the index.
 
 ```bash
 curl --silent -X DELETE -H "Content-Type: application/json" \
-http://localhost:8001/api/repo/delete/ \
+http://localhost:8001/api/ragindex/delete/ \
 -d '{"repository": "public-square/ai-engineer/main"}' | jq
 ```
 

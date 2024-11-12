@@ -1,7 +1,7 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
-from common.repo.list import list_repositories
+from common.ragindex.list import list_repositories
 
 @api_view(['GET'])
 def list_repositories_view(request):

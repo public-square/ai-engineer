@@ -40,20 +40,20 @@ def ping(args):
         'pong': reversed_text
     })
 
-def repo_list(args):
+def ragindex_list(args):
     """
     List repositories for RAG
     """
-    from common.repo.list import list_repositories
+    from common.ragindex.list import list_repositories
 
     repos = list_repositories()
     print(repos)
 
-def repo_vectorize(args):
+def ragindex_vectorize(args):
     """
     Vectorize repository
     """
-    from common.repo.vectorize import vectorize_repository
+    from common.ragindex.vectorize import vectorize_repository
 
     repo = args.repo
     if not repo:
@@ -62,11 +62,11 @@ def repo_vectorize(args):
 
     vectorize_repository(repo)
 
-def repo_delete(args):
+def ragindex_delete(args):
     """
     Delete repository
     """
-    from common.repo.delete import delete_repository
+    from common.ragindex.delete import delete_repository
 
     repo = args.repo
     if not repo:
@@ -182,23 +182,23 @@ if __name__ == '__main__':
     parser_chat_prompt.add_argument('--context',  type=str, help='filenames, array')
     parser_chat_prompt.set_defaults(func=chat_prompt)
 
-    # repo command and subcommands
-    parser_repo = sub_parsers.add_parser('repo', help='repository commands')
-    repo_sub_parsers = parser_repo.add_subparsers(help='repo sub-commands')
+    # ragindex command and subcommands
+    parser_ragindex = sub_parsers.add_parser('ragindex', help='rag index commands')
+    ragindex_sub_parsers = parser_ragindex.add_subparsers(help='ragindex sub-commands')
 
     # repo list
-    parser_repo_list = repo_sub_parsers.add_parser('list', help='list repositories for RAG')
-    parser_repo_list.set_defaults(func=repo_list)
+    parser_ragindex_list = ragindex_sub_parsers.add_parser('list', help='list repositories for RAG')
+    parser_ragindex_list.set_defaults(func=ragindex_list)
 
     # repo vectorize
-    parser_repo_vectorize = repo_sub_parsers.add_parser('vectorize', help='vectorize repository')
-    parser_repo_vectorize.add_argument('--repo', type=str, help='repository owner/repo/branch')
-    parser_repo_vectorize.set_defaults(func=repo_vectorize)
+    parser_ragindex_vectorize = ragindex_sub_parsers.add_parser('vectorize', help='vectorize repository')
+    parser_ragindex_vectorize.add_argument('--repo', type=str, help='repository owner/repo/branch')
+    parser_ragindex_vectorize.set_defaults(func=ragindex_vectorize)
 
     # repo delete
-    parser_repo_delete = repo_sub_parsers.add_parser('delete', help='delete repository')
-    parser_repo_delete.add_argument('--repo', type=str, help='repository owner/repo/branch')
-    parser_repo_delete.set_defaults(func=repo_delete)
+    parser_ragindex_delete = ragindex_sub_parsers.add_parser('delete', help='delete repository')
+    parser_ragindex_delete.add_argument('--repo', type=str, help='repository owner/repo/branch')
+    parser_ragindex_delete.set_defaults(func=ragindex_delete)
 
 
 
