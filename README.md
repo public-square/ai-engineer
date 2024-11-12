@@ -9,7 +9,23 @@ PineCone.
 Multiple agents will be added soon.
 
 ## Setup
-Python3.12 and poetry must be installed at the system level
+Python3.12 must be installed at the system level. All execution will use a
+virtual environment.
+
+### Configure System Poetry
+```bash
+python3.12 -m pip install poetry
+python3.12 -m poetry config virtualenvs.in-project true
+python3.12 -m poetry config virtualenvs.create true
+```
+
+### Local Virtual Execution Environment
+Instantiate the virtual execution environment in the application root.
+```bash
+echo exit | python3.12 -m poetry shell
+.venv/bin/python -m pip install poetry
+.venv/bin/python -m poetry install
+```
 
 ## Configuration
 Copy `global/./env-sample` to `global/.env`.
