@@ -175,11 +175,6 @@ if __name__ == '__main__':
     # command sub-parsers
     sub_parsers = parser.add_subparsers(help='sub-command help')
 
-    # ping
-    parser_ping = sub_parsers.add_parser('ping', help='proof of life - returns text reversed')
-    parser_ping.add_argument('--text', type=str, help='text to reverse')
-    parser_ping.set_defaults(func=ping)
-
     # chat/prompt
     parser_chat_prompt = sub_parsers.add_parser('chat', help='chat with LLM')
     parser_chat_prompt.add_argument('--prompt', type=str, help='text to prompt LLM')
@@ -187,17 +182,21 @@ if __name__ == '__main__':
     parser_chat_prompt.add_argument('--context',  type=str, help='filenames, array')
     parser_chat_prompt.set_defaults(func=chat_prompt)
 
-    # repo/list
-    parser_repo_list = sub_parsers.add_parser('repo-list', help='list repositories for RAG')
+    # repo command and subcommands
+    parser_repo = sub_parsers.add_parser('repo', help='repository commands')
+    repo_sub_parsers = parser_repo.add_subparsers(help='repo sub-commands')
+
+    # repo list
+    parser_repo_list = repo_sub_parsers.add_parser('list', help='list repositories for RAG')
     parser_repo_list.set_defaults(func=repo_list)
 
-    # repo/vectorize
-    parser_repo_vectorize = sub_parsers.add_parser('repo-vectorize', help='vectorize repository')
+    # repo vectorize
+    parser_repo_vectorize = repo_sub_parsers.add_parser('vectorize', help='vectorize repository')
     parser_repo_vectorize.add_argument('--repo', type=str, help='repository owner/repo/branch')
     parser_repo_vectorize.set_defaults(func=repo_vectorize)
 
-    # repo/delete
-    parser_repo_delete = sub_parsers.add_parser('repo-delete', help='delete repository')
+    # repo delete
+    parser_repo_delete = repo_sub_parsers.add_parser('delete', help='delete repository')
     parser_repo_delete.add_argument('--repo', type=str, help='repository owner/repo/branch')
     parser_repo_delete.set_defaults(func=repo_delete)
 
@@ -208,17 +207,21 @@ if __name__ == '__main__':
 
 
 
-    # clone/list
-    parser_clone_list = sub_parsers.add_parser('clone-list', help='list local repository clones')
+    # clone command and subcommands
+    parser_clone = sub_parsers.add_parser('clone', help='clone repository commands')
+    clone_sub_parsers = parser_clone.add_subparsers(help='clone sub-commands')
+
+    # clone list
+    parser_clone_list = clone_sub_parsers.add_parser('list', help='list local repository clones')
     parser_clone_list.set_defaults(func=clone_list)
 
-    # clone/create
-    parser_clone_create = sub_parsers.add_parser('clone-create', help='create local repository clone')
+    # clone create
+    parser_clone_create = clone_sub_parsers.add_parser('create', help='create local repository clone')
     parser_clone_create.add_argument('--repo', type=str, help='repository owner/repo/branch')
     parser_clone_create.set_defaults(func=clone_create)
 
-    # clone/delete
-    parser_clone_delete = sub_parsers.add_parser('clone-delete', help='delete local repository clone')
+    # clone delete
+    parser_clone_delete = clone_sub_parsers.add_parser('delete', help='delete local repository clone')
     parser_clone_delete.add_argument('--repo', type=str, help='repository owner/repo/branch')
     parser_clone_delete.set_defaults(func=clone_delete)
 
@@ -229,13 +232,22 @@ if __name__ == '__main__':
 
 
 
-    # env
-    parser_env = sub_parsers.add_parser('env', help='display environment variables from settings')
-    parser_env.set_defaults(func=env)
+    # setup command and subcommands
+    parser_setup = sub_parsers.add_parser('setup', help='setup commands')
+    setup_sub_parsers = parser_setup.add_subparsers(help='setup sub-commands')
 
-    # setup/newindex
-    parser_setup_newindex = sub_parsers.add_parser('setup-newindex', help='create new index for RAG')
+    # setup newindex
+    parser_setup_newindex = setup_sub_parsers.add_parser('newindex', help='create new index for RAG')
     parser_setup_newindex.set_defaults(func=setup_newindex)
+
+    # setup env
+    parser_setup_env = setup_sub_parsers.add_parser('env', help='display environment variables from settings')
+    parser_setup_env.set_defaults(func=env)
+
+    # setup ping
+    parser_setup_ping = setup_sub_parsers.add_parser('ping', help='proof of life - returns text reversed')
+    parser_setup_ping.add_argument('--text', type=str, help='text to reverse')
+    parser_setup_ping.set_defaults(func=ping)
 
 
     args = parser.parse_args()

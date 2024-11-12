@@ -13,7 +13,7 @@ Repositories are added to the index as discrete namespaces, specified as
 succeeds.
 
 ```bash
-./ai-engineer repo-vectorize \
+./ai-engineer repo vectorize \
 --repo 'public-square/ai-engineer/main'
 ```
 
@@ -25,7 +25,7 @@ Note that after an index operation completes, there may be a brief delay before
 the new repository is available for listing.
 
 ```bash
-./ai-engineer repo-list
+./ai-engineer repo list
 ```
 
 ```
@@ -34,7 +34,7 @@ the new repository is available for listing.
 
 ### Delete a Repository from the Index
 ```bash
-./ai-engineer repo-delete \
+./ai-engineer repo delete \
 --repo 'public-square/ai-engineer/main'
 ```
 
@@ -51,7 +51,7 @@ specify that repository with a `--repo` argument.
 
 ```bash
 ./ai-engineer chat \
---repo 'public-square/ai-engineer/django' \
+--repo 'public-square/ai-engineer/main' \
 --prompt "What is the curl command I should use to hit the ping API target?"
 ```
 
@@ -74,7 +74,7 @@ it will be overwritten and any changes that have not been pushed upstream will
 be lost.
 
 ```bash
-./ai-engineer clone-create --repo public-square/ai-engineer/main
+./ai-engineer clone create --repo public-square/ai-engineer/main
 ```
 
 ### Deleting a Local Repository Clone
@@ -82,13 +82,13 @@ The delete command removes a local repository clone entirely. Any changes that
 have not been pushed upstream will be lost.
 
 ```bash
-./ai-engineer clone-delete --repo public-square/ai-engineer/main
+./ai-engineer clone delete --repo public-square/ai-engineer/main
 ```
 
 ### Listing Local Clones
 
 ```bash
-./ai-engineer clone-list
+./ai-engineer clone list
 ```
 
 ## Administrative Functions
@@ -100,7 +100,7 @@ to create the index must match the encoding model to successfully index
 repositories for RAG.
 
 ```bash
-./ai-engineer setup-newindex
+./ai-engineer setup newindex
 ```
 
 ```
