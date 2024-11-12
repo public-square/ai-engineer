@@ -1,5 +1,5 @@
 """
-Django settings configuration for the Rag N Chat API project.
+Django settings configuration for the AI Engineer project.
 
 Key Settings:
 - DEBUG: Set to True for development (should be False in production)

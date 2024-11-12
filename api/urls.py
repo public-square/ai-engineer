@@ -1,9 +1,14 @@
 """
-URL configuration for the Rag N Chat API.
+URL configuration for the AI Engineer API.
 
 This module defines the URL patterns for the API endpoints:
 - /api/ping/ (POST):
         Accepts text strings and returns both original and reversed versions
+        Handles input validation and error responses
+        Maximum text length: 1024 characters
+
+- /api/llm/prompt/ (POST):
+        Accepts text strings and returns llm responses
         Handles input validation and error responses
         Maximum text length: 1024 characters
 
@@ -21,12 +26,12 @@ This module defines the URL patterns for the API endpoints:
         Returns success status and number of processed files
         Handles invalid inputs and processing errors
 
-- /api/repo/list/ (GET):
+- /api/ragindex/list/ (GET):
         Lists all repositories (namespaces) stored in the Pinecone database
         Returns a sorted list of repositories in format 'owner/repo/branch'
         No input parameters required
 
-- /api/repo/delete/ (DELETE):
+- /api/ragindex/delete/ (DELETE):
         Deletes all vectors for a repository from the Pinecone database
         Accepts repository string in format 'owner/repo/branch' or 'owner/repo'
         where 'branch' is optional (defaults to 'main')
