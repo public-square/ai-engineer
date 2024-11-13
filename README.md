@@ -59,6 +59,17 @@ LLM prompts with an indexed repository specified use that repository for RAG.
 --prompt "What is the curl command I should use to hit the ping API target?"
 ```
 
+## Invoke a LangGraph Agent
+A sample agent that performs code reviews is included.
+```bash
+./ai-engineer agent analyze \
+--repo 'public-square/ai-engineer/main' \
+--save true
+```
+
+The output of this agent can be seen [here](ai-engineer-data/code-review.md).
+
+
 ## Verify API
 Launch the API server.
 
