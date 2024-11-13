@@ -30,6 +30,11 @@ env = environ.Env()
 BASE_DIR = Path(__file__).resolve().parent.parent
 environ.Env.read_env(os.path.join(BASE_DIR, 'global', '.env'))
 
+# files and extensions to handle
+VALID_EXTENSIONS = ['.md', '.py']
+VALID_FILES = ['pyproject.toml', 'poetry.lock','.gitignore']
+CLONE_AI_ENGINEER_DIR="ai-engineer-data"
+
 # Server configuration
 API_SERVER_PORT = env('API_SERVER_PORT')
 SECRET_KEY = env('DJANGO_SECRET_KEY')
@@ -58,7 +63,7 @@ TAVILY_API_KEY = env('TAVILY_API_KEY')
 
 
 # Django settings
-DEBUG = True
+DEBUG = False
 ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
