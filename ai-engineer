@@ -121,6 +121,45 @@ def clone_delete(args):
 
     print (delete_clone(repo))
 
+def agent_analyze(args):
+    """
+    Analyze a local repository clone
+    """
+    from common.agent.analyze import agent_analyze
+
+    repo = args.repo
+    if not repo:
+        print('Please provide a repository owner/repo/branch')
+        return
+
+    codereview = agent_analyze(repo)
+
+    if hasattr(codereview, "error"):
+        print(codereview)
+        return
+
+    if not codereview['codereview']:
+        print(codereview)
+        print("Error: codereview not found")
+        return
+
+    print(codereview['codereview'])
+
+    if args.save:
+        print('Saving code review to clone')
+        from common.clone.write_file import write_file
+        try:
+            write_file(
+                repo,
+                settings.CLONE_AI_ENGINEER_DIR,
+                'code-review.md',
+                codereview['codereview']
+            )
+        except Exception as e:
+            print(e)
+            print('Error writing file')
+
+    return
 
 
 
@@ -200,6 +239,17 @@ if __name__ == '__main__':
     parser_ragindex_delete.add_argument('--repo', type=str, help='repository owner/repo/branch')
     parser_ragindex_delete.set_defaults(func=ragindex_delete)
 
+
+
+    # agent command and subcommands
+    parser_agent = sub_parsers.add_parser('agent', help='ai agents')
+    agent_sub_parsers = parser_agent.add_subparsers(help='available agents')
+
+    # agent: analyze
+    parser_agent_analyze = agent_sub_parsers.add_parser('analyze', help='analyze a local clone')
+    parser_agent_analyze.add_argument('--repo', type=str, help='local clone owner/repo/branch')
+    parser_agent_analyze.add_argument('--save', type=bool, help='write the analysis to the clone')
+    parser_agent_analyze.set_defaults(func=agent_analyze)
 
 
 
