@@ -1,5 +1,5 @@
 TASK_PROMPT = """
-You are a Principal Software Engineer tasked with writing a detailed code review. Generate the best review possible for the user's request and the initial outline. If the user provides critique, respond with a revised version of your previous attempts.
+You are a Principal Software Engineer tasked with writing a detailed code review. Generate the best review possible for the code provided. If the user provides critique, respond with a revised version of your previous attempts.
 
 Base your review on the code provided below:
 
@@ -10,6 +10,14 @@ Base your review on the code provided below:
 
 PLAN_PROMPT = """
 You are a Principal Software Engineer tasked with writing a high level outline of code review. Write such an outline for the user provided code. Give an outline of the code review along with any relevant notes or instructions for the sections.
+
+Instructions:
+- Produce github-flavored markdown.
+- Include each section of the code in the outline.
+- Do not include recommendations on collaboration or followup.
+- Do not provide notes or instructions for developers.
+- Do not provide notes or instructions for reviewers.
+
 """
 
 RESEARCH_PLAN_PROMPT = """
@@ -28,7 +36,8 @@ Instructions:
 - Provide clear reasoning for all recommendations.
 - Document any critical issues that need immediate attention.
 - Do not include recommendations on collaboration or followup.
-- Do not provide notes or instructions for developers or reviewers.
+- Do not provide notes or instructions for developers.
+- Do not provide notes or instructions for reviewers.
 
 Utilize the information below as needed:
 
