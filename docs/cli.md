@@ -7,19 +7,28 @@ Agents pull information from local repository clones and RAG indexes. Once
 you have created a local clone and vectorized the code, execute agents
 using that information.
 
-### Code Review
-The first example agent performs a code review across the entire codebase.
-
-```bash
-./ai-engineer agent analyze \
---repo 'public-square/ai-engineer/main' \
---save true
-```
-
 Agents that support the `--save true` argument write output to the local
 repository clone as last known project state. This information may be used
 locally or committed and pushed to make it part of the project to avoid
 wasteful repetitive future invocation.
+
+### Code Review
+The first example agent performs a code review across the entire codebase.
+
+```bash
+./ai-engineer agent analyze codereview \
+--repo 'public-square/ai-engineer/main' \
+--save true
+```
+
+### Project Context
+Analyze a codebase to provide project context in support of generative tasks.
+
+```bash
+./ai-engineer agent analyze projectcontext \
+--repo 'public-square/ai-engineer/main' \
+--save true
+```
 
 
 ## RAG Repository Management

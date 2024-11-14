@@ -62,7 +62,7 @@ LLM prompts with an indexed repository specified use that repository for RAG.
 ## Invoke a LangGraph Agent
 A sample agent that performs code reviews is included.
 ```bash
-./ai-engineer agent analyze \
+./ai-engineer agent analyze codereview \
 --repo 'public-square/ai-engineer/main' \
 --save true
 ```
