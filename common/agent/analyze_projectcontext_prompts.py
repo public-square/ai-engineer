@@ -14,6 +14,8 @@ You are a Principal Software Engineer tasked with writing a high level outline o
 Instructions:
 - Produce github-flavored markdown.
 - Include each section of the code in the outline.
+- Go at least 4 directories deep in the outline.
+- Do not overlook executable scripts that have a shebang.
 - Identify major libraries and frameworks with versions used in the code.
 - Do not include installation or setup instructions.
 """
@@ -27,6 +29,7 @@ You are a Principal Software Engineer tasked with writing an excellent project c
 
 Instructions:
 - Produce github-flavored markdown.
+- Do not decorate the markdown
 - Review each section of the code thoroughly and identify important subject matter for software developers.
 
 Utilize the information below as needed:
