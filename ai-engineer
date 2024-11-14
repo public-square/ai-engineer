@@ -121,7 +121,7 @@ def clone_delete(args):
 
     print (delete_clone(repo))
 
-def agent_analyze(args):
+def agent_analyze(command, args):
     """
     Analyze a local repository clone
     """
@@ -132,34 +132,49 @@ def agent_analyze(args):
         print('Please provide a repository owner/repo/branch')
         return
 
-    codereview = agent_analyze(repo)
+    analysis = agent_analyze(command, repo)
 
-    if hasattr(codereview, "error"):
-        print(codereview)
+    if 'error' in analysis:
+        print(analysis)
+        print("Error: unknown error")
         return
 
-    if not codereview['codereview']:
-        print(codereview)
-        print("Error: codereview not found")
+    if not 'content' in analysis:
+        print(analysis)
+        print("Error: analyze content not found")
         return
 
-    print(codereview['codereview'])
+    print(analysis['content'])
 
     if args.save:
-        print('Saving code review to clone')
+        savefile = f"{command}.md"
+
+        print('Saving analysis to clone: ', savefile)
         from common.clone.write_file import write_file
         try:
             write_file(
                 repo,
                 settings.CLONE_AI_ENGINEER_DIR,
-                'code-review.md',
-                codereview['codereview']
+                savefile,
+                analysis['content']
             )
         except Exception as e:
             print(e)
             print('Error writing file')
 
     return
+
+def agent_analyze_codereview(args):
+    """
+    Code review of a local repository clone
+    """
+    agent_analyze('code_review', args)
+
+def agent_analyze_projectcontext(args):
+    """
+    Project context of a local repository clone
+    """
+    agent_analyze('project_context', args)
 
 
 
@@ -245,11 +260,21 @@ if __name__ == '__main__':
     parser_agent = sub_parsers.add_parser('agent', help='ai agents')
     agent_sub_parsers = parser_agent.add_subparsers(help='available agents')
 
-    # agent: analyze
-    parser_agent_analyze = agent_sub_parsers.add_parser('analyze', help='analyze a local clone')
-    parser_agent_analyze.add_argument('--repo', type=str, help='local clone owner/repo/branch')
-    parser_agent_analyze.add_argument('--save', type=bool, help='write the analysis to the clone')
-    parser_agent_analyze.set_defaults(func=agent_analyze)
+    # agent analyze command and subcommands
+    parser_agent_analyze = agent_sub_parsers.add_parser('analyze', help='analysis commands')
+    analyze_sub_parsers = parser_agent_analyze.add_subparsers(help='analyze sub-commands')
+
+    # agent analyze: codereview
+    parser_agent_analyze_codereview = analyze_sub_parsers.add_parser('codereview', help='code review of a local clone')
+    parser_agent_analyze_codereview.add_argument('--repo', type=str, help='local clone owner/repo/branch')
+    parser_agent_analyze_codereview.add_argument('--save', type=bool, help='write the analysis to the clone')
+    parser_agent_analyze_codereview.set_defaults(func=agent_analyze_codereview)
+
+    # agent analyze: projectcontext
+    parser_agent_analyze_projectcontext = analyze_sub_parsers.add_parser('projectcontext', help='project context of a local clone')
+    parser_agent_analyze_projectcontext.add_argument('--repo', type=str, help='local clone owner/repo/branch')
+    parser_agent_analyze_projectcontext.add_argument('--save', type=bool, help='write the analysis to the clone')
+    parser_agent_analyze_projectcontext.set_defaults(func=agent_analyze_projectcontext)
 
 
 

@@ -14,13 +14,8 @@ from langchain_openai import ChatOpenAI
 from pydantic import BaseModel
 from tavily import TavilyClient
 
-from .analyze_codereview_prompts import TASK_PROMPT, PLAN_PROMPT, RESEARCH_PLAN_PROMPT, WRITER_PROMPT, REFLECTION_PROMPT, RESEARCH_CRITIQUE_PROMPT
 
-
-
-
-
-def agent_analyze(repository):
+def agent_analyze(command, repository):
     try:
         owner, repo, branch = parse_repository_string(repository)
         clone_dir = f"{settings.GITHUB_CLONE_DIR}/{owner}/{repo}/{branch}"
@@ -46,6 +41,15 @@ def agent_analyze(repository):
         api_key=settings.TAVILY_API_KEY
     )
     memory = MemorySaver()
+
+    match command:
+        case "code_review":
+            from .analyze_codereview_prompts import TASK_PROMPT, PLAN_PROMPT, RESEARCH_PLAN_PROMPT, WRITER_PROMPT, REFLECTION_PROMPT, RESEARCH_CRITIQUE_PROMPT
+        case "project_context":
+            from .analyze_projectcontext_prompts import TASK_PROMPT, PLAN_PROMPT, RESEARCH_PLAN_PROMPT, WRITER_PROMPT, REFLECTION_PROMPT, RESEARCH_CRITIQUE_PROMPT
+        case _:
+            return {'error': 'Invalid command'}
+
 
     class AgentState(TypedDict):
         task: str
@@ -157,7 +161,7 @@ def agent_analyze(repository):
     try:
         return {
             "status": "success",
-            "codereview": s['generate']['draft']
+            "content": s['generate']['draft']
         }
     except AttributeError as e:
         return {

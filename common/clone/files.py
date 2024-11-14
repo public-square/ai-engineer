@@ -38,6 +38,10 @@ def formatted_files_from_clone(clone):
                     if settings.DEBUG:
                         print(f"Error reading potential script file {file_path}: {str(e)}")
 
+        # exlcude files in the ai engineer data directory
+        if settings.CLONE_AI_ENGINEER_DIR in str(file_path):
+            valid_file = False
+
         if valid_file:
             try:
                 # Read file content
