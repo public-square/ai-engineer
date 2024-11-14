@@ -2,6 +2,26 @@
 `ai-engineer` is a simple command line interface covering the existing API
 targets and offering some administrative capabilites.
 
+## Invoking Agents
+Agents pull information from local repository clones and RAG indexes. Once
+you have created a local clone and vectorized the code, execute agents
+using that information.
+
+### Code Review
+The first example agent performs a code review across the entire codebase.
+
+```bash
+./ai-engineer agent analyze \
+--repo 'public-square/ai-engineer/main' \
+--save true
+```
+
+Agents that support the `--save true` argument write output to the local
+repository clone as last known project state. This information may be used
+locally or committed and pushed to make it part of the project to avoid
+wasteful repetitive future invocation.
+
+
 ## RAG Repository Management
 Repository contents are vectorized in a Pinecone index to support RAG.
 Keeping the Pinecone index up to date is necessary to get current results
