@@ -5,6 +5,7 @@ ai-engineer command line interface
 """
 
 import os
+import re
 from common.utils import *
 from pathlib import Path
 import argparse
@@ -143,11 +144,18 @@ def agent_analyze(command, args):
         print(analysis)
         print("Error: analyze content not found")
         return
+    cleancontent = re.sub(
+        r'^```\n','',re.sub(
+            r'```$','',re.sub(
+                r'^```markdown\n','',analysis['content'].strip()
+                )
+            )
+        ) + '\n'
 
-    print(analysis['content'])
+    print(cleancontent)
 
     if args.save:
-        savefile = f"{command}.md"
+        savefile = f"{command.replace("_", "-")}.md"
 
         print('Saving analysis to clone: ', savefile)
         from common.clone.write_file import write_file
@@ -156,7 +164,7 @@ def agent_analyze(command, args):
                 repo,
                 settings.CLONE_AI_ENGINEER_DIR,
                 savefile,
-                analysis['content']
+                cleancontent
             )
         except Exception as e:
             print(e)
