@@ -63,8 +63,8 @@ TAVILY_API_KEY = env('TAVILY_API_KEY')
 
 
 # Django settings
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 DEBUG = False
-ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'django.contrib.admin',
