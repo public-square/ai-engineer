@@ -83,22 +83,17 @@ def chat_with_gpt_view(request):
                     status=status.HTTP_400_BAD_REQUEST
                 )
 
-
-
-    repository = request.data.get('repository')
-    context = request.data.get('context')
-    
     try:
         result = process_chat_prompt(prompt, repository, context)
-        
+
         if 'error' in result:
             return Response(
                 {'error': result['error']},
                 status=status.HTTP_400_BAD_REQUEST
             )
-            
+
         return Response(result)
-        
+
     except ValueError as e:
         return Response(
             {'error': str(e)},
