@@ -64,6 +64,16 @@ def process_chat_prompt(prompt, repository=None, context=None):
                     'error': 'Repository index not found: ' + repository
                 }
 
+            if context:
+                try:
+                    from common.clone.files import formatted_files_from_clone
+                    prompt_context = formatted_files_from_clone(repository, context)
+                    prompt += '\n\n' + prompt_context
+                except ValueError as e:
+                    return {'error': 'Failed to read context files: ' + str(e)}
+                except Exception as e:
+                    return {'error': 'Failed to read context files: ' + str(e)}
+
             try:
                 embeddings = OpenAIEmbeddings(
                     model="text-embedding-ada-002",

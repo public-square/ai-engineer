@@ -1,28 +1,46 @@
 from pathlib import Path
+import glob
 from django.conf import settings
 from common.utils import parse_repository_string
 
-def formatted_files_from_clone(clone):
+def formatted_files_from_clone(clone, files=False):
     try:
         owner, repo, branch = parse_repository_string(clone)
         clone_dir = Path(f"{settings.GITHUB_CLONE_DIR}/{owner}/{repo}/{branch}")
     except ValueError as e:
-        return {'error': str(e)}
+        raise Exception(str(e))
     except Exception as e:
-        return {'error': {str(e)}}
+        raise Exception(str(e))
+
+    # error if the clone directory does not exist
+    if not clone_dir.is_dir():
+        raise ValueError(f"Clone directory not found: {clone_dir}")
+
+    # return files
+    if not files:
+        guardrail = True
+        filepaths = clone_dir.rglob('*')
+    else:
+        guardrail = False
+        filepaths=(Path(f"{clone_dir}/{filename}") for filename in files)
+
 
     # Store results
     formatted_output = []
     # Walk through directory
-    for file_path in clone_dir.rglob('*'):
+    for file_path in filepaths:
         # Skip .git directory
-        if '.git' in str(file_path):
+        if ('.git' in str(file_path)):
             continue
-
-        valid_file = False
+        # default to valid if specified, invalid otherwise
+        valid_file = not guardrail
+        # ignore directories
+        if file_path.is_dir():
+            valid_file = False
         # accept .md, .py, pyproject.toml, and poetry.lock files
-        if (file_path.suffix.lower() in settings.VALID_EXTENSIONS or
-            file_path.name.lower() in settings.VALID_FILES):
+        if (guardrail and (
+            file_path.suffix.lower() in settings.VALID_EXTENSIONS or
+            file_path.name.lower() in settings.VALID_FILES)):
             valid_file = True
         # check for files with no suffix (potential scripts)
         elif file_path.suffix.lower() == '':
@@ -38,7 +56,7 @@ def formatted_files_from_clone(clone):
                     if settings.DEBUG:
                         print(f"Error reading potential script file {file_path}: {str(e)}")
 
-        # exlcude files in the ai engineer data directory
+        # exclude files in the ai engineer data directory
         if settings.CLONE_AI_ENGINEER_DIR in str(file_path):
             valid_file = False
 
