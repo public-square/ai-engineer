@@ -49,4 +49,5 @@ urlpatterns = [
     path('ragindex/list/', views.ragindex.list.list_repositories_view, name='list_repositories'),
     path('ragindex/delete/', views.ragindex.delete.delete_repository_view, name='delete_repository'),
     path('llm/prompt/', views.llm.prompt.chat_with_gpt_view, name='chat_with_gpt'),
+    path('agent/analyze/codereview/', views.agent.analyze.analyze_code_review_view, name='analyze_code_review'),
 ]
