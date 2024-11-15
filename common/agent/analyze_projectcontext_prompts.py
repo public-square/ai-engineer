@@ -16,6 +16,7 @@ Instructions:
 - Include each section of the code in the outline.
 - Go at least 4 directories deep in the outline.
 - Do not overlook executable scripts that have a shebang.
+- Evaluate code called by all entry points, including API endpoints and CLI scripts.
 - Identify major libraries and frameworks with versions used in the code.
 - Do not include installation or setup instructions.
 """
